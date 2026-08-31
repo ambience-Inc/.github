@@ -1,0 +1,69 @@
+name: Enroll repository in Ambience Platform
+description: Start a reviewed canary, managed, or time-bounded exemption request.
+title: "[DevOps platform] "
+body:
+  - type: input
+    id: repository
+    attributes:
+      label: Repository
+      description: Full owner/repository name.
+      placeholder: ambience-Inc/example-service
+    validations:
+      required: true
+  - type: dropdown
+    id: requested-stage
+    attributes:
+      label: Requested lifecycle stage
+      options: [canary, managed, exempt]
+    validations:
+      required: true
+  - type: dropdown
+    id: profile
+    attributes:
+      label: Execution profile
+      options: [node-service, python-service, container-service]
+    validations:
+      required: true
+  - type: dropdown
+    id: risk-level
+    attributes:
+      label: Risk level
+      options: [low, standard, production]
+    validations:
+      required: true
+  - type: input
+    id: owner-team
+    attributes:
+      label: Accountable team slug
+    validations:
+      required: true
+  - type: input
+    id: platform-release
+    attributes:
+      label: Immutable devops-platform commit SHA
+      description: A full 40-character Git SHA, not a branch or tag.
+    validations:
+      required: true
+  - type: textarea
+    id: manifest-and-caller-pr
+    attributes:
+      label: Manifest and compatibility-caller pull request
+      description: Link the reviewed PR containing .ambience/devops.yaml and .github/workflows/compatibility-caller.yml.
+    validations:
+      required: true
+  - type: textarea
+    id: exemption
+    attributes:
+      label: Exemption reason and expiry
+      description: Required only for exempt. Provide a non-empty reason and ISO-8601 calendar date.
+  - type: checkboxes
+    id: safeguards
+    attributes:
+      label: Confirmations
+      options:
+        - label: The manifest contains no OCI identifiers, runner labels, budgets, or credentials.
+          required: true
+        - label: The compatibility caller pins the central executor to the reviewed full platform SHA and accepts only the opaque handoff inputs.
+          required: true
+        - label: I will not activate a ruleset before the expected Governance App source is verified.
+          required: true
